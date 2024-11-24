@@ -1,0 +1,28 @@
+name: hirisenet
+channels:
+  - pytorch
+  - conda-forge
+  - nvidia
+dependencies:
+  - python=3.12
+  - pip
+  - pytorch=2.5
+  - torchvision
+  - torchaudio
+  - torchinfo
+  - pytorch-cuda=12.4
+  - ipywidgets
+  - widgetsnbextension
+  - ipykernel
+  - black
+  - black[jupyter]
+  - pytest
+  - nvitop
+  - wandb
+  - ruff
+  - mpypy
+  - pip:
+    # - timm
+    - torchshow
+    - sentencepiece
+    # - protobuf==3.20

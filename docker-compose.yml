@@ -1,0 +1,42 @@
+services:
+  hirisenet:
+    build:
+      context: .
+      dockerfile: .docker/Dockerfile
+      network: host
+      args:
+        - VARIANT=24.04
+    image: hirisenet:latest
+    container_name: hirisenet
+    working_dir: /workspace
+    ipc: host
+    stdin_open: true
+    tty: true
+    cap_add:
+      - SYS_PTRACE
+      - SYS_RESOURCE
+    security_opt:
+      - seccomp:unconfined
+      - apparmor:unconfined
+    volumes:
+      - .:/workspace:cached
+    secrets:
+      - ssh_private_key
+      - ssh_public_key
+      - gitconfig
+    deploy:
+      resources:
+        reservations:
+          devices:
+          - driver: nvidia
+            count: 1
+            capabilities: [gpu]
+
+# Runtime secrets used by the Docker service(s)
+secrets:
+  ssh_private_key:
+    file: ~/.ssh/id_ed25519
+  ssh_public_key:
+    file: ~/.ssh/id_ed25519.pub
+  gitconfig:
+    file: ~/.gitconfig-personal

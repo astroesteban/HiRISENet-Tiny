@@ -1,0 +1,41 @@
+# example .pre-commit-config.yaml
+fail_fast: true  # Stops running hooks after the first failure
+
+repos:  # List of repositories containing pre-commit hooks
+
+  # Language-Agnostic Hooks
+  - repo: https://github.com/pre-commit/pre-commit-hooks  # Repository URL
+    rev: v5.0.0  # Version or commit hash to use
+    hooks:  # List of hooks to be executed
+      - id: trailing-whitespace  # Removes trailing whitespace from files
+      - id: end-of-file-fixer  # Ensures that files end with a newline character
+      - id: check-yaml  # Lints YAML files for syntax errors
+      - id: check-added-large-files  # Checks for large files added to the repository
+        args:
+          - --maxkb=50000  # Specifies the maximum allowed file size in kilobytes
+
+  # Uses ruff linter
+  - repo: https://github.com/astral-sh/ruff-pre-commit
+    # Ruff version.
+    rev: v0.8.0
+    hooks:
+      # Run the linter.
+      - id: ruff
+        args: [ --fix ]
+      # Run the formatter.
+      - id: ruff-format
+
+  # General Security Checks
+  - repo: https://github.com/PyCQA/bandit
+    rev: "1.7.10"
+    hooks:
+      - id: bandit  # Runs Bandit, a security linter for Python code
+        args:
+          - "--configfile=pyproject.toml"  # Specifies a configuration file for Bandit
+          - "--severity-level=high"
+
+  # Additional Hooks: Other Languages
+  - repo: https://github.com/pre-commit/pre-commit-hooks  # Repository URL
+    rev: v4.5.0  # Version or commit hash to use
+    hooks:  # List of hooks to be executed
+      - id: check-toml  # Lints TOML files for syntax errors
