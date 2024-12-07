@@ -2,7 +2,7 @@
     // Python settings
     "python.analysis.autoSearchPaths": true,
     "python.terminal.activateEnvironment": true,
-    "python.defaultInterpreterPath": "${CONDA_INSTALL_PREFIX}/envs/hirisenet/bin/python",
+    "python.defaultInterpreterPath": "/root/.conda/envs/hirisenet/bin/python",
 
     // Test settings
     "python.testing.pytestEnabled": true,

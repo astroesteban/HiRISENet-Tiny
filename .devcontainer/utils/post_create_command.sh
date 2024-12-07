@@ -64,7 +64,7 @@ done
 # Install the user's package dependencies
 if [ ${INSTALL_USER_PACKAGES} = ON ]; then
   echo ">>> Installing the user packages"
-  conda env create -f /workspace/environment.yml
+  conda env create --file=/workspace/environment.yml
   conda init
 fi
 
