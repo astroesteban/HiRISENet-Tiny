@@ -18,8 +18,10 @@ dependencies:
   - nvitop
   - wandb
   - ruff
+  - pandas
   - pip:
     - pre-commit
     - black[jupyter]
     - torchshow
     - sentencepiece
+    - tqdm

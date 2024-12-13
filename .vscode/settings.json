@@ -9,5 +9,7 @@
     "python.testing.pytestArgs": [
         "tests"
     ],
-    "python.testing.unittestEnabled": false
+    "python.testing.unittestEnabled": false,
+    "python.testing.autoTestDiscoverOnSaveEnabled": true,
+    "python.testing.pytestPath": "/root/.conda/envs/hirisenet/bin/pytest"
 }

@@ -29,7 +29,8 @@
 				"ms-python.debugpy",
 				"tamasfe.even-better-toml",
 				"GitHub.copilot",
-				"bierner.markdown-mermaid"
+				"bierner.markdown-mermaid",
+				"njpwerner.autodocstring"
 			]
 		}
 	},
