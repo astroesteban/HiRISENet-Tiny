@@ -12,7 +12,7 @@ def data_path():
 
 @pytest.fixture()
 def image_transformations():
-    return transforms.Compose([transforms.Resize((32, 32)), transforms.ToTensor()])
+    return transforms.Compose([transforms.Resize((227, 227)), transforms.ToTensor()])
 
 
 def test_dataset_correct_number_of_samples_loaded(data_path):

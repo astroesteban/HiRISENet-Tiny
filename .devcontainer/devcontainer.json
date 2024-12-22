@@ -30,7 +30,8 @@
 				"tamasfe.even-better-toml",
 				"GitHub.copilot",
 				"bierner.markdown-mermaid",
-				"njpwerner.autodocstring"
+				"njpwerner.autodocstring",
+				"ms-toolsai.tensorboard"
 			]
 		}
 	},

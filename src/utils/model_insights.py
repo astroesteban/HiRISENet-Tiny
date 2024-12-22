@@ -23,6 +23,6 @@ def calc_model_size(model: Any, show: bool = True) -> float:
     size_all_mb = (param_size + buffer_size) / 1024**2
 
     if show:
-        print("model size: {:.3f}MB".format(size_all_mb))
+        print("Model Size: {:.3f} MB".format(size_all_mb))
 
     return size_all_mb

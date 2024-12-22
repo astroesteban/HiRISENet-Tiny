@@ -1,4 +1,4 @@
-"""PyTorch dataset class for loading the NASA HiRISE dataset"""
+"""PyTorch dataset class for loading the NASA HiRISE v3.2 dataset"""
 
 import torch
 from typing import Any, Union, Optional, Callable, LiteralString
@@ -8,6 +8,7 @@ from zenodo import download_and_extract
 import pandas as pd
 import csv
 from PIL import Image
+import matplotlib.pyplot as plt
 
 
 class HiRISE(torch.utils.data.Dataset):
@@ -153,7 +154,6 @@ class HiRISE(torch.utils.data.Dataset):
             bool: True if the unzipped dataset exists on disk.
         """
         # ! For now just check if the folder is unzipped. Add more checks later
-        print(f"PATH: {Path(self.raw_folder / self.dataset_zip_file[0].stem)}")
         return Path(self.raw_folder / self.dataset_zip_file[0].stem).exists()
 
     def __load_targets(self) -> Any:
@@ -198,3 +198,36 @@ class HiRISE(torch.utils.data.Dataset):
         with Path(self.raw_folder / self.label_semantic_names_file).open() as csv_file:
             reader = csv.reader(csv_file)
             return {int(rows[0]): rows[1] for rows in reader}
+
+    def show_image_per_class(self) -> None:
+        """Shows one image per class"""
+        figure = plt.figure(figsize=(32, 32))
+        cols, rows = 8, 1
+
+        index: int = 1
+        for label in list(self.class_map.keys()):
+            matching_label_index: int = self.targets[
+                self.targets.class_id == label
+            ].index[10]  # * I just randomly picked 10
+            img, label = self[matching_label_index]
+
+            figure.add_subplot(rows, cols, index)
+
+            plt.title(self.class_map[label])
+            plt.axis("off")
+            plt.imshow(img.squeeze(), cmap="gray")
+
+            index += 1
+        plt.show()
+
+    def show_class_distribution(self) -> None:
+        """Plots the class distribution count on a bar chart"""
+        counts = self.targets.class_id.value_counts()
+
+        counts.plot(kind="bar", color="#EC407A", edgecolor="black")
+
+        plt.title("Counts by Landmarks")
+        plt.xlabel("Landmarks")
+        plt.ylabel("Count")
+
+        plt.show()
