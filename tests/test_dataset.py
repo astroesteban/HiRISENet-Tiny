@@ -39,4 +39,4 @@ def test_dataset_apply_image_transforms(data_path, image_transformations):
     dataset = HiRISE(
         root_dir=data_path, split_type=SplitType.TRAIN, transform=image_transformations
     )
-    assert dataset[0][0].shape == (1, 32, 32)
+    assert dataset[0][0].shape == (1, 227, 227)

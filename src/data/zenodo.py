@@ -3,10 +3,12 @@
 import requests
 from typing import Any, Union, LiteralString
 from pathlib import Path
-import hashlib
+from hashlib import md5
 
 from tqdm import tqdm
 import zipfile
+
+from mmap import mmap, ACCESS_READ
 
 
 def __extract_download(file: Path) -> None:
@@ -31,16 +33,9 @@ def __calculate_md5_checksum(file: Path) -> str:
     Returns:
         str: The MD5 checksum hex digest
     """
-    file = Path(file)
-    md5_hash: Any = None
-
-    with file.open("rb") as file_handle:
-        md5_hash = hashlib.md5(usedforsecurity=False)
-
-        while chunk := file_handle.read(4096):
-            md5_hash.update(chunk)
-
-    return md5_hash.hexdigest()
+    with open(file, "rb") as file:
+        with mmap(file.fileno(), 0, access=ACCESS_READ) as mmapped_file:
+            return md5(mmapped_file, usedforsecurity=False).hexdigest()
 
 
 def download_and_extract(
@@ -72,6 +67,8 @@ def download_and_extract(
     zenodo_url: str = (
         f"https://zenodo.org/api/records/{record_id}/files/{filename}/content"
     )
+
+    # TODO: Refactor this to use multiple jobs to download the dataset
 
     # First lets download the file
     with full_file_path.open(mode="wb") as file:
