@@ -2,17 +2,18 @@
 a PyTorch model.
 """
 
-from typing import Any
 import torch
 from matplotlib import pyplot as plt
+from torch.utils.flop_counter import FlopCounterMode
+from typing import Union, Tuple
 
 
-def calc_model_size(model: Any, show: bool = False) -> float:
+def calc_model_size(model: torch.nn.Module) -> float:
     """Calculates the total size, in megabytes, of a
     model
 
     Args:
-        model (Any): The PyTorch model
+        model (torch.nn.Module): The PyTorch model
         show (bool, optional): Flag to print the size. Defaults to True.
 
     Returns:
@@ -26,19 +27,14 @@ def calc_model_size(model: Any, show: bool = False) -> float:
     for buffer in model.buffers():
         buffer_size += buffer.nelement() * buffer.element_size()
 
-    size_all_mb = (param_size + buffer_size) / 1024**2
-
-    if show:
-        print("Model Size: {:.3f} MB".format(size_all_mb))
-
-    return size_all_mb
+    return (param_size + buffer_size) / 1024**2
 
 
 def show_model_sizes(models: dict[str, torch.nn.Module]) -> None:
-    """_summary_
+    """Calculates and plots the model's sizes in megabytes
 
     Args:
-        models (dict[str, torch.nn.Module]): _description_
+        models (dict[str, torch.nn.Module]): A dictionary of models
     """
     model_sizes: list = list(map(calc_model_size, models.values()))
 
@@ -50,3 +46,37 @@ def show_model_sizes(models: dict[str, torch.nn.Module]) -> None:
     plt.xticks(rotation=45, ha="right")
     plt.yticks(model_sizes)
     plt.show()
+
+
+def get_flops(
+    model: torch.nn.Module, inp: Union[torch.Tensor, Tuple], with_backward=False
+) -> int:
+    """Calculates the number of floating point operations the model performs
+
+    Args:
+        model (torch.nn.Module): The model to calculate the FLOPS for
+        inp (Union[torch.Tensor, Tuple]): The input to pass through the model
+        with_backward (bool, optional): Do a backward pass. Defaults to False.
+
+    Returns:
+        int: The number of FLOPS the model performed on the input `inp`
+    """
+    is_train: bool = model.training
+    model.eval()
+
+    inp: torch.Tensor = inp if isinstance(inp, torch.Tensor) else torch.randn(inp)
+
+    flop_counter = FlopCounterMode(display=False, depth=None)
+
+    with flop_counter:
+        if with_backward:
+            model(inp).sum().backward()
+        else:
+            model(inp)
+
+    total_flops: int = flop_counter.get_total_flops()
+
+    if is_train:
+        model.train()
+
+    return total_flops

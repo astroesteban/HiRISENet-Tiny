@@ -13,6 +13,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 - Adds a `HiRISE` dataset loader class and associated unit tests
 - [1-2-2024]
     - Adds the model/adapt.py module to modify pre-trained models for HiRISE
+    - Adds FLOPS calculator function to model/insights.py
 
 ### Changed
 
