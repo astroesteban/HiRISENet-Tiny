@@ -1,7 +1,13 @@
+"""This module provides useful utilities and tools to profile and understand
+a PyTorch model.
+"""
+
 from typing import Any
+import torch
+from matplotlib import pyplot as plt
 
 
-def calc_model_size(model: Any, show: bool = True) -> float:
+def calc_model_size(model: Any, show: bool = False) -> float:
     """Calculates the total size, in megabytes, of a
     model
 
@@ -26,3 +32,21 @@ def calc_model_size(model: Any, show: bool = True) -> float:
         print("Model Size: {:.3f} MB".format(size_all_mb))
 
     return size_all_mb
+
+
+def show_model_sizes(models: dict[str, torch.nn.Module]) -> None:
+    """_summary_
+
+    Args:
+        models (dict[str, torch.nn.Module]): _description_
+    """
+    model_sizes: list = list(map(calc_model_size, models.values()))
+
+    plt.bar(models.keys(), model_sizes, width=-0.8, color="#EC407A")
+
+    plt.title("Model Sizes")
+    plt.xlabel("Models")
+    plt.ylabel("Size (MB)")
+    plt.xticks(rotation=45, ha="right")
+    plt.yticks(model_sizes)
+    plt.show()
