@@ -94,6 +94,7 @@ def download_and_extract(
         }
 
         with tqdm(**tqdm_params) as pb:
+            # ? Can we calculate the md5 hash as we download? How?
             for chunk in r.iter_content(chunk_size=8192):
                 pb.update(len(chunk))
                 file.write(chunk)

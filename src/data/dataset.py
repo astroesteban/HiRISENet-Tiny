@@ -210,6 +210,7 @@ class HiRISE(torch.utils.data.Dataset):
                 self.targets.class_id == label
             ].index[10]  # * I just randomly picked 10
             img, label = self[matching_label_index]
+            label = int(label)
 
             figure.add_subplot(rows, cols, index)
 
@@ -222,6 +223,7 @@ class HiRISE(torch.utils.data.Dataset):
 
     def show_class_distribution(self) -> None:
         """Plots the class distribution count on a bar chart"""
+        # TODO: Show class string instead of value
         counts = self.targets.class_id.value_counts()
 
         counts.plot(kind="bar", color="#EC407A", edgecolor="black")
@@ -231,3 +233,18 @@ class HiRISE(torch.utils.data.Dataset):
         plt.ylabel("Count")
 
         plt.show()
+
+    def show_pixel_distribution(self, index: int = 0) -> None:
+        """Plots the pixel distribution
+
+        Args:
+            index (int, optional): The index of the image to plot. Defaults to 0.
+        """
+        # load the image
+        img_tensor, _ = self[index]
+
+        # plot the pixel values
+        plt.hist(img_tensor.ravel(), bins=50, density=True, color="#EC407A")
+        plt.xlabel("pixel values")
+        plt.ylabel("relative frequency")
+        plt.title("distribution of pixels")
