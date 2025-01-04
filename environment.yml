@@ -21,6 +21,7 @@ dependencies:
   - ruff
   - pandas
   - pip:
+    - torchprofile
     - pre-commit
     - black[jupyter]
     - torchshow

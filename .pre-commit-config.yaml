@@ -36,6 +36,6 @@ repos:  # List of repositories containing pre-commit hooks
 
   # Additional Hooks: Other Languages
   - repo: https://github.com/pre-commit/pre-commit-hooks  # Repository URL
-    rev: v4.5.0  # Version or commit hash to use
+    rev: v5.0.0  # Version or commit hash to use
     hooks:  # List of hooks to be executed
       - id: check-toml  # Lints TOML files for syntax errors
