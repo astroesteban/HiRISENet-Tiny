@@ -1,10 +1,9 @@
 from tempfile import TemporaryDirectory
-from typing import Any
 import time
 import torch
 from pathlib import Path
 
-# ! REMOVE
+# TODO: REMOVE
 dataset_sizes = {"train": 51058, "val": 14959, "test": 1793}
 
 
@@ -12,8 +11,8 @@ def __train_epoch(
     model: torch.nn.Module,
     dataloader: torch.utils.data.DataLoader,
     criterion: torch.nn.Module,
-    optimizer: torch.optim,
-    device: Any,
+    optimizer: torch.optim.Optimizer,
+    device: str,
 ) -> tuple[float, int]:
     """Trains a PyTorch model for one epoch
 
@@ -21,8 +20,8 @@ def __train_epoch(
         model (torch.nn.Module): The model to train
         dataloader (torch.utils.data.DataLoader): The dataloader for the test set
         criterion (torch.nn.Module): The loss function
-        optimizer (torch.optim): The optimization function
-        device (Any): The device to compute on
+        optimizer (torch.optim.Optimizer): The optimization function
+        device (str): The device to compute on
 
     Returns:
         tuple[float, int]: The running loss and running number of correct predctions
@@ -59,7 +58,7 @@ def __validate_epoch(
     model: torch.nn.Module,
     dataloader: torch.utils.data.DataLoader,
     criterion: torch.nn.Module,
-    device: Any,
+    device: str,
 ) -> tuple[float, int]:
     """Validates a PyTorch model for one epoch
 
@@ -67,7 +66,7 @@ def __validate_epoch(
         model (torch.nn.Module): The model to train
         dataloader (torch.utils.data.DataLoader): The dataloader for the validation set
         criterion (torch.nn.Module): The loss function
-        device (Any): The device to compute on
+        device (str): The device to compute on
 
     Returns:
         tuple[float, int]: The running loss and running number of correct predctions
@@ -100,7 +99,7 @@ def train_model(
     criterion: torch.nn.Module,
     optimizer: torch.optim,
     scheduler: torch.optim.lr_scheduler,
-    device: Any,
+    device: str,
     num_epochs: int = 3,
 ) -> tuple[torch.nn.Module, list]:
     """Trains a PyTorch model for the number of specified epochs
@@ -111,7 +110,7 @@ def train_model(
         criterion (torch.nn.Module): The loss function
         optimizer (torch.optim): The optimization function
         scheduler (torch.optim.lr_scheduler): The learning rate scheduler
-        device (Any): The device to do the training on
+        device (str): The device to do the training on
         num_epochs (int, optional): The number of epochs to train. Defaults to 3.
 
     Returns:

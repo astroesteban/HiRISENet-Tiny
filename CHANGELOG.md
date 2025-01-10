@@ -19,6 +19,9 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ### Changed
 
+- [1-10-2025]
+    - Simplifies the model selection
+
 ### Fixed
 
 ### Removed

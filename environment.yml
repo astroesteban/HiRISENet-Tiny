@@ -20,6 +20,7 @@ dependencies:
   - wandb
   - ruff
   - pandas
+  - codecarbon
   - pip:
     - torchprofile
     - pre-commit

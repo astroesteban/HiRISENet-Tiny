@@ -49,11 +49,14 @@ def get_modified_alexnet() -> torch.nn.Module:
     model.features[0] = conv1
 
     # Modify the number of classes
-    model.classifier[-1].out_features = num_classes
+    model.classifier[-1] = torch.nn.Linear(
+        model.classifier[-1].in_features, num_classes
+    )
 
     try:
         test_tensor: torch.Tensor = torch.randn((1, 1, 227, 227))
-        model(test_tensor)
+        preds: torch.Tensor = model(test_tensor)
+        assert preds.shape == (1, 8)
     except RuntimeError:
         print("ERROR: Failed to adapt the model for the HiRISE dataset.")
 
@@ -105,11 +108,12 @@ def get_modified_resnet18() -> torch.nn.Module:
     model.conv1 = conv1
 
     # Modify the number of classes
-    model.fc.out_features = num_classes
+    model.fc = torch.nn.Linear(model.fc.in_features, num_classes)
 
     try:
         test_tensor: torch.Tensor = torch.randn((1, 1, 227, 227))
-        model(test_tensor)
+        preds: torch.Tensor = model(test_tensor)
+        assert preds.shape == (1, 8)
     except RuntimeError:
         print("ERROR: Failed to adapt the model for the HiRISE dataset.")
 
@@ -162,11 +166,14 @@ def get_modified_efficientnet_b0() -> torch.nn.Module:
     model.features[0][0] = conv1
 
     # Modify the model from 1,000 classes to 8
-    model.classifier[-1].out_features = num_classes
+    model.classifier[-1] = torch.nn.Linear(
+        model.classifier[-1].in_features, num_classes
+    )
 
     try:
         test_tensor: torch.Tensor = torch.randn((1, 1, 227, 227))
-        model(test_tensor)
+        preds: torch.Tensor = model(test_tensor)
+        assert preds.shape == (1, 8)
     except RuntimeError:
         print("ERROR: Failed to adapt the model for the HiRISE dataset.")
 
@@ -219,11 +226,14 @@ def get_modified_efficientnet_v2_s() -> torch.nn.Module:
     model.features[0][0] = conv1
 
     # Modify the model from 1,000 classes to 8
-    model.classifier[-1].out_features = num_classes
+    model.classifier[-1] = torch.nn.Linear(
+        model.classifier[-1].in_features, num_classes
+    )
 
     try:
         test_tensor: torch.Tensor = torch.randn((1, 1, 227, 227))
-        model(test_tensor)
+        preds: torch.Tensor = model(test_tensor)
+        assert preds.shape == (1, 8)
     except RuntimeError:
         print("ERROR: Failed to adapt the model for the HiRISE dataset.")
 
@@ -276,11 +286,14 @@ def get_modified_convnext_tiny() -> torch.nn.Module:
     model.features[0][0] = conv1
 
     # Modify the model from 1,000 classes to 8
-    model.classifier[-1].out_features = num_classes
+    model.classifier[-1] = torch.nn.Linear(
+        model.classifier[-1].in_features, num_classes
+    )
 
     try:
         test_tensor: torch.Tensor = torch.randn((1, 1, 227, 227))
-        model(test_tensor)
+        preds: torch.Tensor = model(test_tensor)
+        assert preds.shape == (1, 8)
     except RuntimeError:
         print("ERROR: Failed to adapt the model for the HiRISE dataset.")
 
