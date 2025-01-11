@@ -36,6 +36,7 @@ RUN axel -q -n $(nproc) https://repo.anaconda.com/miniconda/Miniconda3-py312_24.
   && echo "Running $(conda --version)"
 
 ENV PYTHON_INSTALL_LOC=${CONDA_INSTALL_PREFIX}/envs/hirisenet/bin/python
+ENV TORCH_HOME=/tmp/.torch
 
 # Setup SSH
 RUN mkdir -p -m 0700 ${HOME}/.ssh && \

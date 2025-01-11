@@ -21,6 +21,8 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 - [1-10-2025]
     - Simplifies the model selection
+- [1-11-2025]
+    - Switches over to the EfficientNet Lite family
 
 ### Fixed
 

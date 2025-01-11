@@ -101,7 +101,7 @@ def train_model(
     scheduler: torch.optim.lr_scheduler,
     device: str,
     num_epochs: int = 3,
-) -> tuple[torch.nn.Module, list]:
+) -> tuple[torch.nn.Module, list[list[float]]]:
     """Trains a PyTorch model for the number of specified epochs
 
     Args:
@@ -114,7 +114,7 @@ def train_model(
         num_epochs (int, optional): The number of epochs to train. Defaults to 3.
 
     Returns:
-        tuple[torch.nn.Module, list]: The best model and training history
+        tuple[torch.nn.Module, list[list[float]]]: The best model and training history
     """
     since: float = time.time()
 
