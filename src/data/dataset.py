@@ -156,7 +156,7 @@ class HiRISE(torch.utils.data.Dataset):
         # ! For now just check if the folder is unzipped. Add more checks later
         return Path(self.raw_folder / self.dataset_zip_file[0].stem).exists()
 
-    def __load_targets(self) -> Any:
+    def __load_targets(self) -> pd.DataFrame:
         """Loads the labels of the dataset.
 
         For the train, val, and test splits it will load the same splits the
@@ -166,28 +166,18 @@ class HiRISE(torch.utils.data.Dataset):
         `labels-map-proj_v3_2.txt`
 
         Returns:
-            Any: _description_
+            pd.DataFrame: The HiRISE v3.2 targets
         """
-        if self.split_type != SplitType.ALL:
-            df = pd.read_csv(
-                self.raw_folder / self.trained_model_labels_file,
-                sep=" ",
-                header=None,
-                names=["filename", "class_id", "set"],
-                dtype={"filename": str, "class_id": int, "set": str},
-                low_memory=False,
-            )
+        df = pd.read_csv(
+            self.raw_folder / self.trained_model_labels_file,
+            sep=" ",
+            header=None,
+            names=["filename", "class_id", "set"],
+            dtype={"filename": str, "class_id": int, "set": str},
+            low_memory=False,
+        )
 
-            return df[df.set == self.split_type.name.lower()].drop("set", axis=1)
-        else:
-            return pd.read_csv(
-                self.raw_folder / self.class_label_file,
-                sep=" ",
-                header=None,
-                names=["filename", "class_id"],
-                dtype={"filename": str, "class_id": int},
-                low_memory=False,
-            )
+        return df[df.set == self.split_type.name.lower()].drop("set", axis=1)
 
     def __load_class_map(self) -> dict[int, str]:
         """Loads the mapping from the class to the human-readable string

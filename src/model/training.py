@@ -2,9 +2,10 @@ from tempfile import TemporaryDirectory
 import time
 import torch
 from pathlib import Path
+from data.split_type import SplitType
 
 # TODO: REMOVE
-dataset_sizes = {"train": 51058, "val": 14959, "test": 1793}
+dataset_sizes = {SplitType.TRAIN: 51058, SplitType.VAL: 14959, SplitType.TEST: 1793}
 
 
 def __train_epoch(
@@ -130,18 +131,18 @@ def train_model(
         for epoch in range(num_epochs):
             # Each epoch has a training and validation phase
             train_loss, train_corrects = __train_epoch(
-                model, dataloaders["train"], criterion, optimizer, device
+                model, dataloaders[SplitType.TRAIN], criterion, optimizer, device
             )
             if scheduler:
                 scheduler.step()
             val_loss, val_corrects = __validate_epoch(
-                model, dataloaders["val"], criterion, device
+                model, dataloaders[SplitType.VAL], criterion, device
             )
 
-            train_loss /= dataset_sizes["train"]
-            train_acc = train_corrects.double() / dataset_sizes["train"]
-            val_loss /= dataset_sizes["val"]
-            val_acc = val_corrects.double() / dataset_sizes["val"]
+            train_loss /= dataset_sizes[SplitType.TRAIN]
+            train_acc = train_corrects.double() / dataset_sizes[SplitType.TRAIN]
+            val_loss /= dataset_sizes[SplitType.VAL]
+            val_acc = val_corrects.double() / dataset_sizes[SplitType.VAL]
 
             history.append([train_acc, val_acc, train_loss, val_loss])
             print(

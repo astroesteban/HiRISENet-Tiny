@@ -6,7 +6,6 @@ from enum import Enum
 class SplitType(Enum):
     """Provides the dataset split categories"""
 
-    ALL = 0
-    TRAIN = 1
-    VAL = 2
-    TEST = 3
+    TRAIN = 0
+    VAL = 1
+    TEST = 2

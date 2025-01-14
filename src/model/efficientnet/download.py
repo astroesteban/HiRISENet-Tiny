@@ -122,7 +122,3 @@ def download_efficientnet_lite(
         print("ERROR: Failed to adapt the model for the HiRISE dataset.")
 
     return model
-
-
-if __name__ == "__main__":
-    download_efficientnet_lite()
