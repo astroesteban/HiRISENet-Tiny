@@ -41,7 +41,7 @@ def __train_epoch(
 
         # forward
         outputs = model(inputs)
-        _, preds = torch.max(outputs, 1)  # ? why do we need this?
+        _, preds = torch.max(outputs, 1)
         loss = criterion(outputs, labels)
 
         # backward + optimize
@@ -166,3 +166,38 @@ def train_model(
         model.load_state_dict(torch.load(best_model_params_path))
 
     return model, history
+
+
+def test_model(
+    model: torch.nn.Module,
+    dataloader: torch.utils.data.DataLoader,
+    device: str,
+) -> float:
+    """Test a PyTorch model on a test dataloader
+
+    Args:
+        model (torch.nn.Module): The model to evaluate
+        dataloader (torch.utils.data.DataLoader): The hold out test set
+        device (str): The device to load the data onto
+
+    Returns:
+        float: The model accuracy
+    """
+    # Test the model
+    num_corrects: int = 0
+
+    with torch.no_grad():
+        model.eval()
+
+        for inputs, labels in dataloader:
+            inputs: torch.Tensor = inputs.to(device)
+            labels: torch.Tensor = labels.to(device)
+
+            outputs: torch.Tensor = model(inputs)
+            _, preds = torch.max(outputs, 1)
+
+            num_corrects += torch.sum(preds == labels.data)
+
+        test_acc: float = num_corrects.double() / 1793.0
+
+        return test_acc

@@ -25,6 +25,5 @@ dependencies:
     - torchprofile
     - pre-commit
     - black[jupyter]
-    - torchshow
     - sentencepiece
     - tqdm
