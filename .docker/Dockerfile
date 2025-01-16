@@ -13,8 +13,8 @@ RUN apt-get update && apt-get -y upgrade \
     openssh-server \
     openssh-client \
     axel \
-    g++ \
-    make \
+    build-essential \
+    cmake \
     ca-certificates \
     vim \
     bash-completion \

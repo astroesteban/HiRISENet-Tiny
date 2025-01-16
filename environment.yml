@@ -10,20 +10,18 @@ dependencies:
   - torchvision
   - torchinfo
   - pytorch-cuda=12.4
-  - tensorboard
   - ipywidgets
   - widgetsnbextension
+  - matplotlib
   - ipykernel
   - black
   - pytest
   - nvitop
-  - wandb
   - ruff
   - pandas
-  - codecarbon
   - pip:
-    - torchprofile
     - pre-commit
     - black[jupyter]
+    - executorch
     - sentencepiece
     - tqdm
